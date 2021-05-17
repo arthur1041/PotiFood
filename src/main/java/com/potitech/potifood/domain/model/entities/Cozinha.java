@@ -10,8 +10,8 @@ import javax.persistence.Id;
 public class Cozinha {
 	
 	@Id
-	@Column(name = "id_cozinha")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_pessoa")
 	private Long id;
 	
 	
