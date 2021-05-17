@@ -11,10 +11,10 @@ public class Cozinha {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id_pessoa")
+	@Column(name = "id_cozinha")
 	private Long id;
 	
-	
+	@Column(nullable = false)
 	private String nome;
 
 	public Cozinha() {

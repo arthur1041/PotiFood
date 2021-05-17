@@ -1,41 +1,29 @@
 package com.potitech.potifood.domain.model.entities;
 
-import java.math.BigDecimal;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 
 @Entity
-public class Restaurante {
+public class Estado {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id_restaurante")
+	@Column(name = "id_estado")
 	private Long id;
 	
 	@Column(nullable = false)
 	private String nome;
-	
-	@Column(nullable = false)
-	private BigDecimal taxaFrete;
 
-	@ManyToOne
-	@JoinColumn(name = "id_cozinha", nullable = false)
-	private Cozinha cozinha;
-	
-	public Restaurante() {
-		
+	public Estado() {
+
 	}
 
-	public Restaurante(Long id, String nome, BigDecimal taxaFrete) {
+	public Estado(Long id, String nome) {
 		this.id = id;
 		this.nome = nome;
-		this.taxaFrete = taxaFrete;
 	}
 
 	public Long getId() {
@@ -54,14 +42,6 @@ public class Restaurante {
 		this.nome = nome;
 	}
 
-	public BigDecimal getTaxaFrete() {
-		return taxaFrete;
-	}
-
-	public void setTaxaFrete(BigDecimal taxaFrete) {
-		this.taxaFrete = taxaFrete;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -78,7 +58,7 @@ public class Restaurante {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Restaurante other = (Restaurante) obj;
+		Estado other = (Estado) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -86,7 +66,10 @@ public class Restaurante {
 			return false;
 		return true;
 	}
-	
-	
-	
+
+	@Override
+	public String toString() {
+		return "Estado [id=" + id + ", nome=" + nome + "]";
+	}
+
 }
