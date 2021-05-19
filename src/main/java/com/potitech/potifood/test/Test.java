@@ -13,13 +13,13 @@ import com.potitech.potifood.infrastructure.repository.RestauranteRepositoryImpl
 
 public class Test {
 	public static void main(String[] args) {
-		ApplicationContext applicationContext = new SpringApplicationBuilder(PotifoodApiApplication.class).web(WebApplicationType.NONE).run(args);
-
-		RestauranteRepositoryImpl restauranteRepositoryImpl = applicationContext.getBean(RestauranteRepositoryImpl.class);
-		List<Restaurante> restaurantes = restauranteRepositoryImpl.findByCozinha(new Cozinha(10l, "a"));
-		
-		for (Restaurante restaurante : restaurantes) {
-			System.out.println(restaurante);
-		}
+//		ApplicationContext applicationContext = new SpringApplicationBuilder(PotifoodApiApplication.class).web(WebApplicationType.NONE).run(args);
+//
+//		RestauranteRepositoryImpl restauranteRepositoryImpl = applicationContext.getBean(RestauranteRepositoryImpl.class);
+//		List<Restaurante> restaurantes = restauranteRepositoryImpl.findByCozinha(new Cozinha(10l, "a"));
+//		
+//		for (Restaurante restaurante : restaurantes) {
+//			System.out.println(restaurante);
+//		}
 	}
 }

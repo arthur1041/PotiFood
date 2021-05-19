@@ -11,6 +11,6 @@ public interface RestauranteRepository {
 	Restaurante findById(Long id);
 	Restaurante createOrUpdate(Restaurante restaurante);
 	void delete(Restaurante restaurante);
-	List<Restaurante> findByCozinha(Cozinha cozinha);
+	List<Restaurante> findByCozinha(Long cozinhaId);
 	
 }

@@ -44,9 +44,9 @@ public class RestauranteRepositoryImpl implements RestauranteRepository{
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Restaurante> findByCozinha(Cozinha cozinha) {
+	public List<Restaurante> findByCozinha(Long cozinhaId) {
 		Query query = entityManager.createQuery("from Restaurante restaurante WHERE restaurante.cozinha.id = :cozinhaId");
-		query.setParameter("cozinhaId", cozinha.getId());
+		query.setParameter("cozinhaId", cozinhaId);
 		
 		return query.getResultList();
 	}

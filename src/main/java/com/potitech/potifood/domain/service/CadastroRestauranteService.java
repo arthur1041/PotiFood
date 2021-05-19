@@ -31,7 +31,7 @@ public class CadastroRestauranteService {
 		restauranteRepository.delete(restaurante);
 	}
 	
-	public List<Restaurante> buscarPorCozinha(Cozinha cozinha) {
-		return restauranteRepository.findByCozinha(cozinha);
+	public List<Restaurante> buscarPorCozinha(Long cozinhaId) {
+		return restauranteRepository.findByCozinha(cozinhaId);
 	}
 }

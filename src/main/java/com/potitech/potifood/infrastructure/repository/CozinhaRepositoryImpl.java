@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
 
 import com.potitech.potifood.domain.model.entities.Cozinha;
@@ -13,7 +14,7 @@ import com.potitech.potifood.domain.repository.CozinhaRepository;
 
 
 @Component
-public class CozinhaRepositoryImpl implements CozinhaRepository{
+public class CozinhaRepositoryImpl implements CozinhaRepository {
 
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -36,7 +37,13 @@ public class CozinhaRepositoryImpl implements CozinhaRepository{
 
 	@Override
 	@Transactional
-	public void delete(Cozinha cozinha) {
+	public void delete(Long id) {
+		Cozinha cozinha = findById(id);
+		
+		if(cozinha == null) {
+			throw new EmptyResultDataAccessException(1);
+		}
+		
 		entityManager.remove(cozinha);
 	}
 

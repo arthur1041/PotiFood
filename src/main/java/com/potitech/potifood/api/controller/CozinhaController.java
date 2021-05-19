@@ -15,8 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.potitech.potifood.domain.exception.EntidadeNaoEncontradaException;
+import com.potitech.potifood.domain.exception.ErroAoRemoverException;
 import com.potitech.potifood.domain.model.entities.Cozinha;
-import com.potitech.potifood.domain.model.entities.Restaurante;
 import com.potitech.potifood.domain.service.CadastroCozinhaService;
 import com.potitech.potifood.domain.service.CadastroRestauranteService;
 
@@ -32,7 +33,7 @@ public class CozinhaController {
 
 	@Autowired
 	private CadastroCozinhaService cadastroCozinha;
-	
+
 	@GetMapping
 	public List<Cozinha> listar() {
 		return cadastroCozinha.listar();
@@ -69,20 +70,19 @@ public class CozinhaController {
 
 	@DeleteMapping("/{cozinhaId}")
 	public ResponseEntity<Cozinha> remover(@PathVariable("cozinhaId") Long id) {
-		Cozinha cozinha = cadastroCozinha.buscar(id);
-
-		if (cozinha != null) {
-			List<Restaurante> restaurantes = cadastroRestaurante.buscarPorCozinha(cozinha);
-
-			for (Restaurante restaurante : restaurantes) {
-				cadastroRestaurante.remover(restaurante);
-			}
-
-			cadastroCozinha.remover(cozinha);
-
-			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-		}
+		try {
+			
+			cadastroCozinha.remover(id);
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).build()
+					;
+		} catch (EntidadeNaoEncontradaException e) {
+			
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+	
+		} catch (ErroAoRemoverException e) {
 		
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+			return ResponseEntity.status(HttpStatus.CONFLICT).build();
+		
+		}
 	}
 }
