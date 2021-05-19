@@ -4,10 +4,12 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Component;
 
+import com.potitech.potifood.domain.model.entities.Cozinha;
 import com.potitech.potifood.domain.model.entities.Restaurante;
 import com.potitech.potifood.domain.repository.RestauranteRepository;
 
@@ -38,6 +40,15 @@ public class RestauranteRepositoryImpl implements RestauranteRepository{
 	@Transactional
 	public void delete(Restaurante restaurante) {
 		entityManager.remove(restaurante);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Restaurante> findByCozinha(Cozinha cozinha) {
+		Query query = entityManager.createQuery("from Restaurante restaurante WHERE restaurante.cozinha.id = :cozinhaId");
+		query.setParameter("cozinhaId", cozinha.getId());
+		
+		return query.getResultList();
 	}
 
 }

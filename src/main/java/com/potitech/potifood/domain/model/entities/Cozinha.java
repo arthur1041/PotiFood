@@ -6,6 +6,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonRootName;
+
+@JsonRootName("gastronomia")
 @Entity
 public class Cozinha {
 	
@@ -14,6 +18,7 @@ public class Cozinha {
 	@Column(name = "id_cozinha")
 	private Long id;
 	
+	@JsonProperty("titulo")
 	@Column(nullable = false)
 	private String nome;
 
