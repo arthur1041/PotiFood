@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 public class Cidade {
 
@@ -19,6 +21,7 @@ public class Cidade {
 	@Column(nullable = false)
 	private String nome;
 
+	@JsonBackReference
 	@ManyToOne
 	@JoinColumn(name = "id_estado", nullable = false)
 	private Estado estado;
@@ -46,6 +49,14 @@ public class Cidade {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+
+	public Estado getEstado() {
+		return estado;
+	}
+
+	public void setEstado(Estado estado) {
+		this.estado = estado;
 	}
 
 	@Override

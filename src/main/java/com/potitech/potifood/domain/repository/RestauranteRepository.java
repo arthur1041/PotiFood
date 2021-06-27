@@ -10,7 +10,7 @@ public interface RestauranteRepository {
 	List<Restaurante> list();
 	Restaurante findById(Long id);
 	Restaurante createOrUpdate(Restaurante restaurante);
-	void delete(Restaurante restaurante);
+	void delete(Long id);
 	List<Restaurante> findByCozinha(Long cozinhaId);
 	
 }

@@ -7,6 +7,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
 
 import com.potitech.potifood.domain.model.entities.Cozinha;
@@ -38,7 +39,13 @@ public class RestauranteRepositoryImpl implements RestauranteRepository{
 
 	@Override
 	@Transactional
-	public void delete(Restaurante restaurante) {
+	public void delete(Long id) {
+		Restaurante restaurante = findById(id);
+		
+		if(restaurante == null) {
+			throw new EmptyResultDataAccessException(1);
+		}
+		
 		entityManager.remove(restaurante);
 	}
 

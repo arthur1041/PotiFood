@@ -16,28 +16,26 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.potitech.potifood.domain.exception.EntidadeNaoEncontradaException;
-import com.potitech.potifood.domain.model.entities.Estado;
-import com.potitech.potifood.domain.service.CrudEstadoService;
-
-//import javassist.bytecode.stackmap.BasicBlock.Catch;
+import com.potitech.potifood.domain.model.entities.Cidade;
+import com.potitech.potifood.domain.service.CrudCidadeService;
 
 @RestController
-@RequestMapping("/estados")
-public class EstadoController {
+@RequestMapping("/cidades")
+public class CidadeController {
 
 	@Autowired
-	private CrudEstadoService crudEstadoService;
+	private CrudCidadeService crudCidadeService;
 	
 	@ResponseStatus(HttpStatus.OK)
 	@GetMapping
-	public List<Estado> listar(){
-		return crudEstadoService.listar();
+	public List<Cidade> listar(){
+		return crudCidadeService.listar();
 	}
 	
-	@GetMapping("/{estadoId}")
-	public ResponseEntity<?> buscar(@PathVariable("estadoId") Long id){
+	@GetMapping("/{cidadeId}")
+	public ResponseEntity<?> buscar(@PathVariable("cidadeId") Long id) {
 		try {
-			return ResponseEntity.status(HttpStatus.OK).body(crudEstadoService.buscar(id));
+			return ResponseEntity.status(HttpStatus.OK).body(crudCidadeService.buscar(id));
 		} catch (EntidadeNaoEncontradaException e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 		}
@@ -45,26 +43,27 @@ public class EstadoController {
 	
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping
-	public Estado adicionar(@RequestBody Estado estado) {
-		return crudEstadoService.salvar(estado);
+	public Cidade adicionar(@RequestBody Cidade cidade) {
+		return crudCidadeService.salvar(cidade);
 	}
 	
-	@PutMapping("/{estadoId}")
-	public ResponseEntity<?> atualizar(@PathVariable("estadoId") Long id, @RequestBody Estado estado) {
+	@PutMapping("/{cidadeId}")
+	public ResponseEntity<?> atualizar(@PathVariable("cidadeId") Long id, @RequestBody Cidade cidade){
 		try {
-			return ResponseEntity.status(HttpStatus.OK).body(crudEstadoService.atualizar(id, estado));
-		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.OK).body(crudCidadeService.atualizar(id, cidade));
+		} catch (EntidadeNaoEncontradaException e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 		}
 	}
 	
-	@DeleteMapping("/{estadoId}")
-	public ResponseEntity<?> remover(@PathVariable("estadoId") Long id){
+	@DeleteMapping("/{cidadeId}")
+	public ResponseEntity<?> remover(@PathVariable("cidadeId") Long id) {
 		try {
-			crudEstadoService.remover(id);
-			return ResponseEntity.status(HttpStatus.OK).build();
-		} catch (EntidadeNaoEncontradaException e){
+			crudCidadeService.remover(id);
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+		} catch (EntidadeNaoEncontradaException e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 		}
 	}
+	
 }

@@ -1,18 +1,28 @@
 package com.potitech.potifood.domain.model.entities;
 
+import java.io.Serializable;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
 
 @JsonRootName("gastronomia")
 @Entity
-public class Cozinha {
+public class Cozinha implements Serializable{
 	
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_cozinha")
@@ -22,6 +32,10 @@ public class Cozinha {
 	@Column(nullable = false)
 	private String nome;
 
+	@JsonManagedReference
+	@OneToMany(mappedBy = "cozinha", fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+	private List<Restaurante> restaurantes;
+	
 	public Cozinha() {
 
 	}
@@ -45,6 +59,25 @@ public class Cozinha {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+	
+	public List<Restaurante> getRestaurantes() {
+		return restaurantes;
+	}
+
+	public Restaurante getRestaurante(Long id) {
+		
+		for (Restaurante restaurante : restaurantes) {
+			if(restaurante.getId() == id) {
+				return restaurante;
+			}
+		}
+		
+		return null;
+	}
+	
+	public void setRestaurantes(List<Restaurante> restaurantes) {
+		this.restaurantes = restaurantes;
 	}
 
 	@Override
@@ -76,6 +109,7 @@ public class Cozinha {
 	public String toString() {
 		return "Cozinha [id=" + id + ", nome=" + nome + "]";
 	}
-	
+
+
 	
 }

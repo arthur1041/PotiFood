@@ -9,6 +9,6 @@ public interface EstadoRepository {
 	List<Estado> list();
 	Estado findById(Long id);
 	Estado createOrUpdate(Estado cozinha);
-	void delete(Estado cozinha);
+	void delete(Long id);
 	
 }

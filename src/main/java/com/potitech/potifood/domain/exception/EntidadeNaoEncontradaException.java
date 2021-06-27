@@ -8,6 +8,10 @@ public class EntidadeNaoEncontradaException extends RuntimeException{
 		super("Entidade não encontrada");
 	}
 	
+	public EntidadeNaoEncontradaException(Class<?> _class, Long id) {
+		super("Não foi encontrado nenhum registro de " + _class.getSimpleName().toLowerCase() + " com código " + id);
+	}
+	
 	public EntidadeNaoEncontradaException(String mensagem) {
 		super(mensagem);
 	}

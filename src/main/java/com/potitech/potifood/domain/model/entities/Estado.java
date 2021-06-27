@@ -1,10 +1,17 @@
 package com.potitech.potifood.domain.model.entities;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Estado {
@@ -16,6 +23,10 @@ public class Estado {
 	
 	@Column(nullable = false)
 	private String nome;
+	
+	@JsonManagedReference
+	@OneToMany(mappedBy = "estado", fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+	private List<Cidade> cidades;
 
 	public Estado() {
 
@@ -40,6 +51,10 @@ public class Estado {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+	
+	public List<Cidade> getCidades() {
+		return cidades;
 	}
 
 	@Override

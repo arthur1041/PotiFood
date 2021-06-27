@@ -1,5 +1,6 @@
 package com.potitech.potifood.domain.model.entities;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 import javax.persistence.Column;
@@ -10,8 +11,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
-public class Restaurante {
+public class Restaurante implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,6 +30,7 @@ public class Restaurante {
 	@Column(nullable = false)
 	private BigDecimal taxaFrete;
 
+	@JsonBackReference
 	@ManyToOne
 	@JoinColumn(name = "id_cozinha", nullable = false)
 	private Cozinha cozinha;
@@ -61,6 +68,14 @@ public class Restaurante {
 	public void setTaxaFrete(BigDecimal taxaFrete) {
 		this.taxaFrete = taxaFrete;
 	}
+	
+	public Cozinha getCozinha() {
+		return cozinha;
+	}
+
+	public void setCozinha(Cozinha cozinha) {
+		this.cozinha = cozinha;
+	}
 
 	@Override
 	public int hashCode() {
@@ -89,9 +104,7 @@ public class Restaurante {
 
 	@Override
 	public String toString() {
-		return "Restaurante [id=" + id + ", nome=" + nome + ", taxaFrete=" + taxaFrete + ", cozinha=" + cozinha + "]";
+		return "Restaurante [id=" + id + ", nome=" + nome + ", taxaFrete=" + taxaFrete + "]";
 	}
-	
-	
 	
 }

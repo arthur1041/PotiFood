@@ -9,6 +9,6 @@ public interface CidadeRepository {
 	List<Cidade> list();
 	Cidade findById(Long id);
 	Cidade createOrUpdate(Cidade cidade);
-	void delete(Cidade cidade);
+	void delete(Long id);
 	
 }

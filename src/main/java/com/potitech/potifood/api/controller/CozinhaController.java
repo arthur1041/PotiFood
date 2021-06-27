@@ -18,8 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.potitech.potifood.domain.exception.EntidadeNaoEncontradaException;
 import com.potitech.potifood.domain.exception.ErroAoRemoverException;
 import com.potitech.potifood.domain.model.entities.Cozinha;
-import com.potitech.potifood.domain.service.CadastroCozinhaService;
-import com.potitech.potifood.domain.service.CadastroRestauranteService;
+import com.potitech.potifood.domain.service.CrudCozinhaService;
 
 //@Controller
 //@ResponseBody
@@ -29,19 +28,17 @@ import com.potitech.potifood.domain.service.CadastroRestauranteService;
 public class CozinhaController {
 
 	@Autowired
-	private CadastroRestauranteService cadastroRestaurante;
+	private CrudCozinhaService crudCozinha;
 
-	@Autowired
-	private CadastroCozinhaService cadastroCozinha;
-
+	@ResponseStatus(HttpStatus.OK)
 	@GetMapping
 	public List<Cozinha> listar() {
-		return cadastroCozinha.listar();
+		return crudCozinha.listar();
 	}
 
 	@GetMapping("/{cozinhaId}")
 	public ResponseEntity<Cozinha> buscar(@PathVariable("cozinhaId") Long id) {
-		Cozinha cozinha = cadastroCozinha.buscar(id);
+		Cozinha cozinha = crudCozinha.buscar(id);
 
 		return cozinha != null ? ResponseEntity.status(HttpStatus.OK).body(cozinha)
 				: ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -50,31 +47,25 @@ public class CozinhaController {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public Cozinha adicionar(@RequestBody Cozinha cozinha) {
-		return cadastroCozinha.salvar(cozinha);
+		return crudCozinha.salvar(cozinha);
 	}
 
 	@PutMapping("/{cozinhaId}")
-	public ResponseEntity<Cozinha> atualizar(@PathVariable("cozinhaId") Long id, @RequestBody Cozinha cozinha) {
-		Cozinha cozinhaAtual = cadastroCozinha.buscar(id);
-
-		if (cozinhaAtual != null) {
-			cozinhaAtual.setNome(cozinha.getNome());
-
-			cozinhaAtual = cadastroCozinha.salvar(cozinhaAtual);
-
-			return ResponseEntity.status(HttpStatus.OK).body(cozinhaAtual);
+	public ResponseEntity<?> atualizar(@PathVariable("cozinhaId") Long id, @RequestBody Cozinha cozinha) {
+		try {
+			return ResponseEntity.status(HttpStatus.OK).body(crudCozinha.atualizar(id, cozinha));
+		} catch (EntidadeNaoEncontradaException e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 		}
-
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	}
 
 	@DeleteMapping("/{cozinhaId}")
 	public ResponseEntity<Cozinha> remover(@PathVariable("cozinhaId") Long id) {
 		try {
 			
-			cadastroCozinha.remover(id);
-			return ResponseEntity.status(HttpStatus.NO_CONTENT).build()
-					;
+			crudCozinha.remover(id);
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+		
 		} catch (EntidadeNaoEncontradaException e) {
 			
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
